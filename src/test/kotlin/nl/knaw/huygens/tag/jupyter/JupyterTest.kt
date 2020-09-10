@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import java.io.File
 import java.nio.file.Paths
 
-class JupyterTest() {
+class JupyterTest {
     @Test
     fun tag_init() {
         TAG.init()
