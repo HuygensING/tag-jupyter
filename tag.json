@@ -1,0 +1,19 @@
+{
+  "description": "TAG: Text As Graph",
+  "properties": {
+    "v": "1.0-SNAPSHOT"
+  },
+  "link": "https://github.com/HuygensING/tag-jupyter",
+  "dependencies": [
+    "nl.knaw.huygens:tagml:$v",
+    "nl.knaw.huygens:mct:$v"
+  ],
+  "repositories": ["http://maven.huygens.knaw.nl/repository/"],
+  "imports": [
+    "nl.knaw.huygens.tag.jupyter.*"
+  ],
+  "init": ["TAG.init()"],
+  "initCell": ["TAG.initCell()"],
+  "shutdown": ["TAG.shutdown()"],
+  "renderers": {}
+}
