@@ -29,13 +29,13 @@ object TAG {
     }
 
     fun tokenize(tagml: String): List<TAGMLToken> =
-        tokenize(parseFromString(tagml))
+        tokenize(parse(tagml))
 
     fun tokenize(tagmlPath: Path): List<TAGMLToken> =
-        tokenize(parseFromPath(tagmlPath))
+        tokenize(parse(tagmlPath))
 
     fun tokenize(tagmlFile: File): List<TAGMLToken> =
-        tokenize(parseFromFile(tagmlFile))
+        tokenize(parse(tagmlFile))
 
     private fun tokenize(result: TAGMLParseResult): List<TAGMLToken> {
         if (result.warnings.isNotEmpty()) {

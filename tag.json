@@ -10,7 +10,10 @@
   ],
   "repositories": ["http://maven.huygens.knaw.nl/repository/"],
   "imports": [
-    "nl.knaw.huygens.tag.jupyter.*"
+    "nl.knaw.huygens.tag.jupyter.*",
+    "nl.knaw.huygens.tag.mct.*",
+    "java.nio.file.Path",
+    "java.io.File"
   ],
   "init": ["TAG.init()"],
   "initCell": ["TAG.initCell()"],
