@@ -3,7 +3,10 @@ package nl.knaw.huygens.tag.jupyter
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import nl.knaw.huygens.graphviz.DotEngine
-import nl.knaw.huygens.tag.tagml.*
+import nl.knaw.huygens.tag.tagml.ErrorListener
+import nl.knaw.huygens.tag.tagml.TAGMLParseResult
+import nl.knaw.huygens.tag.tagml.TAGMLToken
+import nl.knaw.huygens.tag.tagml.parse
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Path
@@ -39,24 +42,29 @@ object TAG {
 
     private fun tokenize(result: TAGMLParseResult): List<TAGMLToken> {
         if (result.warnings.isNotEmpty()) {
-            println("Warnings:\n" + result.warnings.joinToString("\n") { pretty(it) })
+            println("Warnings:\n  " + result.warnings.joinToString("\n  ") { pretty(it) })
         }
         when (result) {
             is TAGMLParseResult.TAGMLParseSuccess -> {
                 return result.tokens
             }
-            is TAGMLParseResult.TAGMLParseFailure ->
-                println("Errors:\n" + result.errors.joinToString("\n") { pretty(it) })
+            is TAGMLParseResult.TAGMLParseFailure -> {
+                throw(TAGMLParseError("\nErrors:\n  " + result.errors.joinToString("\n  ") { pretty(it) }))
+            }
         }
-        return listOf()
     }
 
     private fun pretty(error: ErrorListener.TAGError): String =
         when (error) {
             is ErrorListener.CustomError ->
-                "@${error.range.startPosition.line}:${error.range.startPosition.character} .. ${error.range.endPosition.line}:${error.range.endPosition.character}: ${error.message}"
+                "@${error.range.startPosition.line}:${error.range.startPosition.character}..${error.range.endPosition.line}:${error.range.endPosition.character}: ${error.message}"
 
             else -> error.message
         }
 
+    class TAGMLParseError(message: String) : Throwable(message) {
+        override fun getStackTrace(): Array<StackTraceElement> {
+            return arrayOf()
+        }
+    }
 }

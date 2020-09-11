@@ -3,6 +3,7 @@ package nl.knaw.huygens.tag.jupyter
 import nl.knaw.huygens.tag.tagml.TAGMLToken
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 import java.io.File
 import java.nio.file.Paths
 
@@ -32,8 +33,17 @@ class JupyterTest {
             |}!]
             |[somethingelse>body<somethingelse]
             |""".trimMargin())
-        val tokens: List<TAGMLToken> = TAG.tokenize(tagml)
-        assertThat(tokens).hasSize(0)
+        assertParsingFailsWithTAGMLParseError(tagml)
+    }
+
+    private fun assertParsingFailsWithTAGMLParseError(tagml: String) {
+        try {
+            TAG.tokenize(tagml)
+            fail("expected TAGMLParseError")
+        } catch (e: TAG.TAGMLParseError) {
+            println(e.message)
+            assertThat(e.message).isNotEmpty
+        }
     }
 
     @Test
@@ -44,8 +54,13 @@ class JupyterTest {
 
     @Test
     fun tokenize_incorrect_tagml_file() {
-        val tokens: List<TAGMLToken> = TAG.tokenize(File("data", "bad.tagml"))
-        assertThat(tokens).hasSize(0)
+        try {
+            TAG.tokenize(File("data", "bad.tagml"))
+            fail("expected TAGMLParseError")
+        } catch (e: TAG.TAGMLParseError) {
+            println(e.message)
+            assertThat(e.message).isNotEmpty
+        }
     }
 
 }
