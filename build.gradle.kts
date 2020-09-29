@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val artifactId: String = "tag-jupyter"
 
 group = "nl.knaw.huygens.tag"
-version = "0.1.2"
+version = "0.1.3"
 
 plugins {
     kotlin("jvm") version "1.4.0"
