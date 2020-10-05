@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val artifactId: String = "tag-jupyter"
 
 group = "nl.knaw.huygens.tag"
-version = "0.1.3"
+version = "0.1.4"
 
 plugins {
     kotlin("jvm") version "1.4.0"
@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
     implementation("nl.knaw.huygens.tag:tagml:0.560.3")
-    implementation("nl.knaw.huygens.tag:tag-mct:0.1.1")
+    implementation("nl.knaw.huygens.tag:tag-mct:0.1.2")
     implementation("nl.knaw.huygens:graphviz-wrapper:1.1")
     implementation("org.slf4j:slf4j-api:1.7.25")
     implementation("ch.qos.logback:logback-classic:1.2.3")
