@@ -1,0 +1,6 @@
+[!{
+  ":ontology": {
+    "root": "tagml"
+  }
+}!]
+[tzzagml>[book>[title>Foo Bar<title][chapter>[l>Lorem ipsum dolar amacet.<l]<chapter]<book]<tagml]
