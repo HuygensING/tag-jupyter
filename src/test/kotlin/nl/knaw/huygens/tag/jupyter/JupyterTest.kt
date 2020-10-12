@@ -63,4 +63,77 @@ class JupyterTest {
         }
     }
 
+    @Test
+    fun infer_header_from_string() {
+        val body = "[root>text<root]"
+        val header = TAG.inferHeader(body)
+        val expectedHeader = """
+            |[!{
+            |  ":ontology": {
+            |    "root": "root",
+            |    "elements": {
+            |      "root": {
+            |        "description": "..."
+            |      }
+            |    },
+            |    "attributes": {}
+            |  }
+            |}!]""".trimMargin()
+        assertThat(header).isEqualTo(expectedHeader)
+    }
+
+    @Test
+    fun infer_header_from_file() {
+        val file = File("data/body.tagml")
+        val header = TAG.inferHeader(file)
+        val expectedHeader = """
+            |[!{
+            |  ":ontology": {
+            |    "root": "q",
+            |    "elements": {
+            |      "q": {
+            |        "description": "..."
+            |      }
+            |    },
+            |    "attributes": {}
+            |  }
+            |}!]""".trimMargin()
+        assertThat(header).isEqualTo(expectedHeader)
+    }
+
+    @Test
+    fun infer_header_from_path() {
+        val file = Paths.get("data", "body.tagml")
+        val header = TAG.inferHeader(file)
+        val expectedHeader = """
+            |[!{
+            |  ":ontology": {
+            |    "root": "q",
+            |    "elements": {
+            |      "q": {
+            |        "description": "..."
+            |      }
+            |    },
+            |    "attributes": {}
+            |  }
+            |}!]""".trimMargin()
+        assertThat(header).isEqualTo(expectedHeader)
+    }
+
+    @Test
+    fun infer_header_from_bad_body_file() {
+        val file = File("data/bad_body.tagml")
+        try {
+            val header = TAG.inferHeader(file)
+            fail("expected exception")
+        } catch (e: TAG.TAGMLParseError) {
+            assertThat(e.message).isEqualTo(
+                """
+                |Errors:
+                |  @8:31..8:36: Closing tag "<end]" found without corresponding open tag.
+                |  @8:36..8:48: Unexpected closing tag: found <dummy_root], but expected <start]""".trimMargin()
+            )
+        }
+    }
+
 }

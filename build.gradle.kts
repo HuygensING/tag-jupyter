@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    implementation("nl.knaw.huygens.tag:tagml:0.560.3")
+    implementation("nl.knaw.huygens.tag:tagml:0.560.4")
     implementation("nl.knaw.huygens.tag:tag-mct:0.1.2")
     implementation("nl.knaw.huygens:graphviz-wrapper:1.1")
     implementation("org.slf4j:slf4j-api:1.7.25")

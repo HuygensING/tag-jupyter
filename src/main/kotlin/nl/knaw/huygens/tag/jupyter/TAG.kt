@@ -3,10 +3,7 @@ package nl.knaw.huygens.tag.jupyter
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
 import nl.knaw.huygens.graphviz.DotEngine
-import nl.knaw.huygens.tag.tagml.ErrorListener
-import nl.knaw.huygens.tag.tagml.TAGMLParseResult
-import nl.knaw.huygens.tag.tagml.TAGMLToken
-import nl.knaw.huygens.tag.tagml.parse
+import nl.knaw.huygens.tag.tagml.*
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Path
@@ -53,6 +50,20 @@ object TAG {
             }
         }
     }
+
+    fun inferHeader(tagmlPath: Path): String =
+        inferHeader(tagmlPath.toFile())
+
+    fun inferHeader(tagmlFile: File): String =
+        inferHeader(tagmlFile.readText())
+
+    fun inferHeader(body: String): String =
+        body.inferHeader().fold(
+            { errors ->
+                throw(TAGMLParseError("\nErrors:\n  " + errors.joinToString("\n  ") { pretty(it) }))
+            },
+            { header -> header }
+        )
 
     private fun pretty(error: ErrorListener.TAGError): String =
         when (error) {
