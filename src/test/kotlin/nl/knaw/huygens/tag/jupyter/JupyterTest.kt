@@ -129,6 +129,7 @@ class JupyterTest {
         } catch (e: TAG.TAGMLParseError) {
             assertThat(e.message).isEqualTo(
                 """
+                |
                 |Errors:
                 |  @8:31..8:36: Closing tag "<end]" found without corresponding open tag.
                 |  @8:36..8:48: Unexpected closing tag: found <dummy_root], but expected <start]""".trimMargin()
