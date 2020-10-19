@@ -42,14 +42,16 @@ object TAG {
     private fun tokenize(tagml: String, result: TAGMLParseResult): List<TAGMLToken> {
         val u = TAGErrorUtil(tagml)
         if (result.warnings.isNotEmpty()) {
-            println("Warnings:\n  " + result.warnings.joinToString("\n") { u.errorInContext(it).pretty() })
+            println("Warnings:\n\n" + result.warnings.joinToString("\n\n") { "* " + u.errorInContext(it).pretty() })
         }
         when (result) {
             is TAGMLParseResult.TAGMLParseSuccess -> {
                 return result.tokens
             }
             is TAGMLParseResult.TAGMLParseFailure -> {
-                throw(TAGMLParseError("\nErrors:\n  " + result.errors.joinToString("\n") { u.errorInContext(it).pretty() }))
+                throw(TAGMLParseError("\nErrors:\n\n" + result.errors.joinToString("\n\n") {
+                    "* " + u.errorInContext(it).pretty()
+                }))
             }
         }
     }
