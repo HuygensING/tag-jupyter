@@ -2,7 +2,9 @@ package nl.knaw.huygens.tag.jupyter
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
+import nl.knaw.huygens.TAGErrorUtil
 import nl.knaw.huygens.graphviz.DotEngine
+import nl.knaw.huygens.pretty
 import nl.knaw.huygens.tag.tagml.*
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -29,24 +31,25 @@ object TAG {
     }
 
     fun tokenize(tagml: String): List<TAGMLToken> =
-        tokenize(parse(tagml))
+        tokenize(tagml, parse(tagml))
 
     fun tokenize(tagmlPath: Path): List<TAGMLToken> =
-        tokenize(parse(tagmlPath))
+        tokenize(tagmlPath.toFile().readText(), parse(tagmlPath))
 
     fun tokenize(tagmlFile: File): List<TAGMLToken> =
-        tokenize(parse(tagmlFile))
+        tokenize(tagmlFile.readText(), parse(tagmlFile))
 
-    private fun tokenize(result: TAGMLParseResult): List<TAGMLToken> {
+    private fun tokenize(tagml: String, result: TAGMLParseResult): List<TAGMLToken> {
+        val u = TAGErrorUtil(tagml)
         if (result.warnings.isNotEmpty()) {
-            println("Warnings:\n  " + result.warnings.joinToString("\n  ") { pretty(it) })
+            println("Warnings:\n  " + result.warnings.joinToString("\n") { u.errorInContext(it).pretty() })
         }
         when (result) {
             is TAGMLParseResult.TAGMLParseSuccess -> {
                 return result.tokens
             }
             is TAGMLParseResult.TAGMLParseFailure -> {
-                throw(TAGMLParseError("\nErrors:\n  " + result.errors.joinToString("\n  ") { pretty(it) }))
+                throw(TAGMLParseError("\nErrors:\n  " + result.errors.joinToString("\n") { u.errorInContext(it).pretty() }))
             }
         }
     }
