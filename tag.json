@@ -1,21 +1,20 @@
 {
   "description": "TAG: Text As Graph",
   "properties": {
-    "v": "1.0-SNAPSHOT"
+    "v": "0.1.6"
   },
   "link": "https://github.com/HuygensING/tag-jupyter",
   "dependencies": [
-    "nl.knaw.huygens:tagml:$v",
-    "nl.knaw.huygens:mct:$v"
+    "nl.knaw.huygens.tag:tag-jupyter:$v"
   ],
   "repositories": ["http://maven.huygens.knaw.nl/repository/"],
   "imports": [
     "nl.knaw.huygens.tag.jupyter.*",
     "nl.knaw.huygens.tag.mct.*",
-    "java.nio.file.Path",
+    "java.nio.file.Paths",
     "java.io.File"
   ],
-  "init": ["TAG.init()"],
+  "init": ["TAG.init();fun TAGMCT.show() = MIME(this.asSVGPair())"],
   "initCell": ["TAG.initCell()"],
   "shutdown": ["TAG.shutdown()"],
   "renderers": {}
