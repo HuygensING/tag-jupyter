@@ -1,0 +1,3 @@
+#!/bin/bash
+mkdir -p ~/.jupyter_kotlin/libraries
+cp tag.json ~/.jupyter_kotlin/libraries

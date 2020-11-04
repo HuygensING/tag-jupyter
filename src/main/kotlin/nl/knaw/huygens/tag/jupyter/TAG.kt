@@ -2,6 +2,7 @@ package nl.knaw.huygens.tag.jupyter
 
 import ch.qos.logback.classic.Level
 import ch.qos.logback.classic.Logger
+import nl.knaw.huygens.PropertiesConfiguration
 import nl.knaw.huygens.TAGErrorUtil
 import nl.knaw.huygens.graphviz.DotEngine
 import nl.knaw.huygens.pretty
@@ -14,7 +15,9 @@ object TAG {
 
     fun init() {
         (LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME) as Logger).level = Level.WARN
-        println("Welcome to TAG")
+        val properties = PropertiesConfiguration("tag.properties", true)
+        val version = properties.getProperty("version", "unknown")
+        println("Welcome to TAG - Text As Graph ($version)")
         val dotEngine = DotEngine()
         if (dotEngine.hasDot) {
             println("Using GraphViz: ${dotEngine.dotVersion}")

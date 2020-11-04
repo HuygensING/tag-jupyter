@@ -7,15 +7,26 @@
   "dependencies": [
     "nl.knaw.huygens.tag:tag-jupyter:$v"
   ],
-  "repositories": ["http://maven.huygens.knaw.nl/repository/"],
+  "repositories": [
+    "http://maven.huygens.knaw.nl/repository/"
+  ],
   "imports": [
     "nl.knaw.huygens.tag.jupyter.*",
     "nl.knaw.huygens.tag.mct.*",
     "java.nio.file.Paths",
     "java.io.File"
   ],
-  "init": ["TAG.init();fun TAGMCT.show() = MIME(this.asSVGPair())"],
-  "initCell": ["TAG.initCell()"],
-  "shutdown": ["TAG.shutdown()"],
-  "renderers": {}
+  "init": [
+    "TAG.init()",
+    "fun TAGMCT.show() = MIME(this.asSVGPair())"
+  ],
+  "initCell": [
+    "TAG.initCell()"
+  ],
+  "shutdown": [
+    "TAG.shutdown()"
+  ],
+  "renderers": {
+    "nl.knaw.huygens.tag.TAGMCT": "MIME($it.asSVGPair())"
+  }
 }
